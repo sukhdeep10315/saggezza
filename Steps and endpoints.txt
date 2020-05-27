@@ -1,0 +1,61 @@
+Service Run
+
+Start the disovery server -> (http://localhost:8284/)
+Start the Zuul server -> (http://localhost:8080)
+===================================================================================================================
+Start the product-service
+
+FETCH PRODUCTS
+http://localhost:8080/cat-prod-service/catalogProducts (fetch all products)
+
+{"catalogProds":[{"id":1,"catalogName":"firstCatalog","products":[{"id":1,"productName":"shirt","productDesc":"bodywear","productPrice":45.0,"available":true},{"id":2,"productName":"pant","productDesc":"bodywear","productPrice":25.0,"available":true},{"id":3,"productName":"shoes","productDesc":"bodywear","productPrice":15.0,"available":false}]},{"id":2,"catalogName":"secondCatalog","products":[{"id":4,"productName":"skarf","productDesc":"bodywear","productPrice":45.0,"available":true},{"id":5,"productName":"tie","productDesc":"bodywear","productPrice":43.0,"available":true},{"id":6,"productName":"cap","productDesc":"bodywear","productPrice":11.0,"available":true}]}]}
+
+================================================================================
+
+FETCH SINGLE PRODUCT
+http://localhost:8080/cat-prod-service/catalogProducts/2/productId/4 (fetch single product)
+
+---{"id":4,"productName":"skarf","productDesc":"bodywear","productPrice":45.0,"available":true}
+---{"erroMessage":"Either Product/Catalog Not found","errorDetails":["Please retry with actual ids"]} //Error Scenario
+
+http://localhost:8080/cat-prod-service/swagger-ui.html
+==================================================================================
+
+Start the order-service
+
+http://localhost:8080/shopcart-service/shoppingCart/getAllUsers  (this was not needed and if it will,,,it will another service...gettng forbidden access from reqres.in so created some user to work with)
+
+{"users":[{"id":1,"email":"george.bluth@reqres.in","first_name":"George","last_name":"Bluth"},{"id":2,"email":"janet.weaver@reqres.in","first_name":"janet","last_name":"weaver"},{"id":3,"email":"emma.wong@reqres.in","first_name":"emma","last_name":"wong"},{"id":4,"email":"eve.holt@reqres.in","first_name":"eve","last_name":"holt"},{"id":5,"email":"charles.morris@reqres.in","first_name":"Charles","last_name":"morris"}]}
+
+==================================================================================================================
+ADD AN ITEM
+
+http://localhost:8080/shopcart-service/shoppingCart/add  (add an item from cart)
+POST METHOD 
+REQUEST BODY
+
+{
+ "catalogId":2,
+"productId":4,
+"userId":1
+}
+
+{"orderId":50,"userId":1,"orderitems":[{"orderItemId":13,"orderId":50,"productId":4,"productPrice":45.0}],"totolPrice":45.0}
+
+====================================================================================================================================
+REMOVE AN ITEM
+
+http://localhost:8080/shopcart-service/shoppingCart/remove  (remove an item from cart)
+DELETE METHOD 
+REQUEST BODY
+{
+ "catalogId":2,
+"productId":4,
+"userId":1
+}
+
+{"orderId":50,"userId":1,"orderitems":[],"totolPrice":0.0}
+
+
+SWAGGER --->      http://localhost:8080/shopcart-service/swagger-ui.html
+
